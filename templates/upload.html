@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block css %}{% endblock %}
+{% block content %}
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-md-10 mx-auto col-lg-6">
+            <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" method="post" enctype="multipart/form-data">
+                <div class="form-floating mb-3">
+                    <input type="file" class="form-control" id="floatingInput" name="files" accept="image/*" multiple>
+                    <label for="floatingInput">Upload Image(s)</label>
+                    <small class="text-body-secondary">
+                        You can upload multiple images at once. Images should be in jpg, jpeg, or png format.    
+                    </small>
+                </div>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+                <hr class="my-4">
+                <small class="text-body-secondary">
+                    <a href="/view" class="text-decoration-none">
+                        <i class="fas fa-images"></i> View Uploads
+                    </a>
+                </small>
+            </form>
+        </div>
+        <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
+                Deepface Uploads
+            </h1>
+            <p class="col-lg-10 fs-4">
+                Upload an image to detect faces in it. It is a simple web application that detects faces in images using deep learning. It is built with Flask and Deepface.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}{% endblock %}

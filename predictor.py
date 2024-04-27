@@ -9,5 +9,6 @@ def query(filename):
     response = requests.post(API_URL, headers=headers, data=data)
     return response.json()
 
-output = query("static/fake_1006.jpg")
-print(output)
+if __name__ == "__main__":
+    print(query("static/uploads/real.jpg"))
+    print(query("static/uploads/fake.jpg"))
