@@ -77,6 +77,31 @@ def view():
     uploads = get_db().query(Upload).all()
     return render_template('view.html', collections=uploads)
 
+@app.route('/predict/<int:id>', methods=['GET', 'POST'])
+def predict(id):
+    upload = get_by_id(Upload, id)
+    result = query(upload.image)
+    result = Result(
+        image = upload.image,
+        result = result,
+        upload = id
+    )
+    save_to_db(result)
+    return redirect('/view')
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    db = get_db()
+    upload = db.query(Upload).filter_by(id=id).first()
+    db.delete(upload)
+    db.commit()
+    if os.path.exists(upload.image):
+        os.remove(upload.image)
+    db.close()
+    return redirect('/view')
+
+
+
 @app.route('/report', methods=['GET', 'POST'])
 def report():
     return render_template('report.html')
