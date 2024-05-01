@@ -72,22 +72,45 @@ def upload():
 
 @app.route('/view', methods=['GET', 'POST'])
 def view():
-    if not session['isauth']:
-        return redirect('/login')
+    
     uploads = get_db().query(Upload).all()
     return render_template('view.html', collections=uploads)
 
 @app.route('/predict/<int:id>', methods=['GET', 'POST'])
 def predict(id):
+    
     upload = get_by_id(Upload, id)
-    result = query(upload.image)
-    result = Result(
-        image = upload.image,
-        result = result,
-        upload = id
-    )
-    save_to_db(result)
-    return redirect('/view')
+    score1 = 0
+    score2 = 0
+    resp = None
+    if request.method == 'POST':
+        try:
+            resp = query(upload.image)
+            if len(resp) == 0:
+                flash('Predict failed', 'danger')
+                return redirect('/view')
+            label1 = resp[0]['label']
+            score1 = resp[0]['score']
+            label2 = resp[1]['label']
+            score2 = resp[1]['score']
+            if score1 > score2:
+                ans = True
+                score = round(score1 * 100,3)
+            else:
+                ans = False  
+                score = round(score2 * 100,2)
+            result = Result(
+                image = upload.image,
+                result = ans,
+                score = score
+            )
+            save_to_db(result)
+            flash('Predict success', 'success')
+        except Exception as e:
+            print(e)
+            flash('Predict failed', 'danger')
+    return render_template('predict.html', upload=upload, result=resp, score1=round(score1 * 100,2), score2=round(score2 * 100,2))
+
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
@@ -100,6 +123,21 @@ def delete(id):
     db.close()
     return redirect('/view')
 
+@app.route('/delete/pred/<int:id>', methods=['GET', 'POST'])
+def delete_pred(id):
+    db = get_db()
+    result = db.query(Result).filter_by(id=id).first()
+    db.delete(result)
+    db.commit()
+    if os.path.exists(result.image):
+        os.remove(result.image)
+    db.close()
+    return redirect('/history')
+
+@app.route('/history', methods=['GET', 'POST'])
+def history():
+    results = get_db().query(Result).all()
+    return render_template('history.html', collections=results)
 
 
 @app.route('/report', methods=['GET', 'POST'])

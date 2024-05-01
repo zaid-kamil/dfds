@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block css %}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-uploads-center rounded-3 border shadow-lg">
+        <div class="col-lg-6 p-3 p-lg-5 pt-lg-3">
+            <div class="d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                <img src="/{{upload.image}}" alt="{{upload.image}}" class="card-img" data-id="{{upload.id}}"
+                    style="height: 400px; object-fit: cover;">
+            </div>
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                <a class="btn btn-primary me-auto" href="/view">
+                    <i class="fas fa-arrow-left"></i> Check others
+                </a>
+                <form method="post">
+                    <button class="btn btn-success">Detect Deepfake</button>
+                </form>
+                <a class="btn btn-danger" href="/delete/{{upload.id}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6 p-3 p-lg-5 pt-lg-3 ">
+
+            {% if result %}
+            <h2 class="display-4 fw-bold lh-1 text-body-emphasis">
+                Result
+            </h2>
+            <p class="lead">
+                Real confidence.
+            </p>
+            <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="{{score1}}"
+                aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-success" style="width: {{score1}}%">{{score1}}%</div>
+            </div>
+            <p class="lead">
+                Fake confidence.
+            </p>
+            <div class="progress" role="progressbar" aria-label="Danger example" aria-valuenow="{{score2}}"
+                aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-danger" style="width: {{score2}}%">{{score2}}%</div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    // on click on form button, replace the text with spinner
+    document.querySelector('form button').addEventListener('click', function () {
+        this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Detecting...';
+    });
+</script>
+{% endblock %}

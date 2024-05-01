@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block css %}{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-12 p-3 p-lg-5 pt-lg-3">
+            <h1 class="display-5 fw-bold lh-1 text-body-emphasis mb-4">
+                Prediction History <i class="fas fa-history"></i>
+            </h1>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-top border border-2">
+                    <thead class="table-light">
+                        <caption>
+                            Results Table from database
+                        </caption>
+                        <tr>
+                            <th>#id</th>
+                            <th>Thumbnail</th>
+                            <th>Result</th>
+                            <th>Confidence</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        {% for row in collections %}
+                        <tr class="">
+                            <td>{{ row.id }}</td>
+                            <td class="d-flex align-items-end gap-2">
+                                <img src="{{row.image}}" alt="thumbnail" class="img-fluid" width="300" >
+
+                            </td>
+                            <td>
+                                {% if row.result == 1 %}
+                                <span class="badge bg-success fs-3">Real</span>
+                                {% else %}
+                                <span class="badge bg-danger fs-3">Fake</span>
+                                {% endif %}
+                            </td>
+                            <td class="fs-3">
+                                {{ row.score }} %
+                            </td>
+                            <td>
+                                <a href="/delete/pred/{{row.id}}" class="btn btn-danger">
+                                    <i class="fas fa-trash fs-5"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}{% endblock %}

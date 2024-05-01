@@ -18,7 +18,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
         integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://unpkg.com/htmx.org@1.9.12"
+        integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+        crossorigin="anonymous"></script>
     {% block css %} {% endblock %}
 
 </head>
@@ -35,19 +37,24 @@
                     <a class="navbar-brand" href="/">Deepfake detection</a>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/"><i class="fas fa-home"></i>
+                            <a class="nav-link active" href="/"><i class="fas fa-home" title="Home"></i>
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/view">
-                                <i class="fas fa-images"></i>
+                                <i class="fas fa-images" title="view gallery"></i>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/upload">
                                 <!-- view upload-->
-                                <i class="fas fa-upload"></i>
+                                <i class="fas fa-upload" title="new upload"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="/history">
+                                <i class="fas fa-history" title="history"></i>
                             </a>
                         </li>
                         {% if session.isauth %}
@@ -141,7 +148,7 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 
-    
+
     {% if not session.isauth %}
     <script>
         // show modal on page load if not logged in
@@ -149,9 +156,9 @@
     </script>
     {% endif %}
 
-    
 
-        
+
+
     {% block js %} {% endblock %}
 </body>
 

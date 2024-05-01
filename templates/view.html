@@ -1,25 +1,40 @@
 {% extends 'base.html' %}
-{% block css %}{% endblock %}
+{% block css %}
+<!-- htmx.min.js -->
+
+<style>
+    .result-container {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 231, 231, 0.5));
+    }
+
+    #indicator {
+        opacity: 0;
+    }
+</style>
+{% endblock %}
 {% block content %}
 <div class="py-5 bg-body-tertiary">
     <div class="container">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            
+
             {% if collections %}
             {% for item in collections %}
             <div class="col">
                 <div class="card shadow-sm">
-                    <img src="/{{item.image}}" alt="{{item.image}}">
+                    <img src="/{{item.image}}" alt="{{item.image}}" class="card-img" data-id="{{item.id}}"
+                        style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <a class="text-decoration-none" href="/predict/{{item.id}}">Detect Deepfake</a>
+                                    <a class="text-decoration-none" href="/predict/{{item.id}}">
+                                        Detect Deepfake
+                                    </a>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-danger ">
                                     <a class="text-decoration-none text-white" href="/delete/{{item.id}}">
-                                        <i class="fas fa-trash"></i> 
+                                        <i class="fas fa-trash"></i>
                                     </a>
                                 </button>
                             </div>
@@ -31,22 +46,28 @@
                 </div>
             </div>
             {% endfor %}
-            {% else %}
+
+            {% endif %}
             <div class="col">
-                <div class="card shadow-sm p-5">
+                <div class="card shadow-sm p-5" style="height: 360px;">
                     <div class="card-body text-center">
-                        <p class="text-center">No images uploaded yet.</p>
-                        <a href="/upload" class="btn btn-success">
-                            <i class="fas fa-upload"></i> Upload Image
+                        <p class="text-center">Add more images.</p>
+                        <a href="/upload" class="btn  fs-3">
+                            <i class="fas fa-upload "></i> Upload Image
                         </a>
                     </div>
                 </div>
             </div>
-            {% endif %}
-
-                
         </div>
     </div>
 </div>
+
+
+
+
+
 {% endblock %}
-{% block js %}{% endblock %}
+{% block js %}
+
+
+{% endblock %}
